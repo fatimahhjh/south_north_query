@@ -1,28 +1,48 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import Home from "../views/Home.vue";
 
 Vue.use(VueRouter);
-
-const routes = [
-  {
-    path: "/",
-    name: "Home",
-    component: Home
+// const originalPush = VueRouter.prototype.push
+// VueRouter.prototype.push = function push(location, onResolve, onReject) {
+//   if (onResolve || onReject) return originalPush.call(this, location, onResolve, onReject)
+//   return originalPush.call(this, location).catch(err => err)
+// };
+const routes = [{
+    path: '/',
+    redirect: "/query-index"
   },
   {
-    path: "/about",
-    name: "About",
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () =>
-      import(/* webpackChunkName: "about" */ "../views/About.vue")
+    path: '/query-index',
+    name: 'query-index',
+    component: () => import('../components/queryIndex.vue')
+  },
+  {
+    path: '/query-main',
+    name: 'query-main',
+    component: () => import('../components/queryMain.vue'),
+    children: [{
+        path: '/query-port',
+        name: 'query-port',
+        component: () => import('../components/portQuery.vue')
+      },
+      {
+        path: '/query-int',
+        name: 'query-int',
+        component: () => import('../components/queryInt.vue')
+      },
+      {
+        path: '/query-customerize',
+        name: 'query-customerize',
+        component: () => import('../components/queryCustomerize.vue')
+      }
+    ]
   }
+
+
 ];
 
 const router = new VueRouter({
-  mode: "history",
+  // mode: "history",
   base: process.env.BASE_URL,
   routes
 });
