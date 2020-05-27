@@ -30,6 +30,12 @@ const routes = [{
         name: 'query-int',
         component: () => import('../components/queryInt.vue')
       },
+      ,
+      {
+        path: '/query-all',
+        name: 'query-all',
+        component: () => import('../components/queryAll.vue')
+      },
       {
         path: '/query-customerize',
         name: 'query-customerize',

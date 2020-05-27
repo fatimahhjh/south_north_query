@@ -136,6 +136,7 @@ export default {
   }
 .search_nav{
   margin: 1px 0 17px 34px;
+  
 }
   .result_area {
     // border: 1px solid black;

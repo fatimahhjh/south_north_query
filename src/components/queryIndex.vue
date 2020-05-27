@@ -14,6 +14,7 @@
           prefix-icon="el-icon-search"
           v-model="keyword"
           clearable
+          :disabled="selectedOption=='批量上传搜索关键字'"
           @keyup.enter.native="searchEnterFun"
         >
         </el-input>
@@ -24,38 +25,52 @@
               }}<i class="el-icon-arrow-down el-icon--right"></i>
             </span>
             <el-dropdown-menu slot="dropdown">
-              <el-dropdown-item command="接口">接口</el-dropdown-item>
+              <!-- <el-dropdown-item command="接口">接口</el-dropdown-item>
               <el-dropdown-item command="交换机端口"
                 >交换机端口</el-dropdown-item
+              > -->
+              <el-dropdown-item command="关键字输入查询"
+                >关键字输入查询</el-dropdown-item
+              >
+              <el-dropdown-item command="批量上传搜索关键字"
+                >批量上传搜索关键字</el-dropdown-item
               >
             </el-dropdown-menu>
           </el-dropdown>
         </div>
       </div>
+      <div class="multiUploadBtn" v-if="selectedOption=='批量上传搜索关键字'">
+        <upload
+          :submitUrl="keywordsSubmitUrl"
+          :offUploadKwDialog="offUploadTermDialog"
+          :title="批量上传搜索关键字"
+        >
+        </upload>
+      </div>
     </div>
     <div class="bottom">
-     <div class="linksArea">
- <div class="links_area">
-        <ul>
-          <li>aaa</li>
-          <li>bbb</li>
-          <li>ccc</li>
-          <li>ddd</li>
-          <li>eee</li>
-          <li>fff</li>
-        </ul>
+      <div class="linksArea">
+        <div class="links_area">
+          <ul>
+            <li>aaa</li>
+            <li>bbb</li>
+            <li>ccc</li>
+            <li>ddd</li>
+            <li>eee</li>
+            <li>fff</li>
+          </ul>
+        </div>
+        <div class="links_area">
+          <ul>
+            <li>aaa</li>
+            <li>bbb</li>
+            <li>ccc</li>
+            <li>ddd</li>
+            <li>eee</li>
+            <li>fff</li>
+          </ul>
+        </div>
       </div>
-      <div class="links_area">
-        <ul>
-          <li>aaa</li>
-          <li>bbb</li>
-          <li>ccc</li>
-          <li>ddd</li>
-          <li>eee</li>
-          <li>fff</li>
-        </ul>
-      </div>
-     </div>
     </div>
   </div>
 </template>
@@ -63,15 +78,19 @@
 <script>
 //这里可以导入其他文件（比如：组件，工具js，第三方插件js，json文件，图片文件等等）
 //例如：import 《组件名称》 from '《组件路径》';
-
+import upload from "../components/upload.vue";
 export default {
   //import引入的组件需要注入到对象中才能使用
-  components: {},
+  components: {
+    upload
+  },
   data() {
     //这里存放数据
     return {
       keyword: "",
-      selectedOption: "下拉菜单"
+      keywordsSubmitUrl: "",
+
+      selectedOption: "选择查询方式"
     };
   },
   //监听属性 类似于data概念
@@ -82,7 +101,6 @@ export default {
   methods: {
     handleCommand(command) {
       this.selectedOption = command;
-      this.$message(command);
     },
     searchEnterFun: function(e) {
       var keyCode = window.event ? e.keyCode : e.which;
@@ -100,7 +118,7 @@ export default {
           });
         } else {
           this.$router.push({
-            name: "query-main",
+            name: "query-all",
             params: { keyword: this.keyword }
           });
         }
@@ -179,12 +197,12 @@ export default {
       }
       .el-input__prefix {
         left: 15px;
-        top: 8px;
+        top: 10px;
       }
       .dropDownOptions {
-        width: 100px;
-        margin-left: 67%;
-        margin-top: -31px;
+        width: 300px;
+        margin-left: 61%;
+        margin-top: -33px;
 
         .el-dropdown-link {
           cursor: pointer;
@@ -195,24 +213,27 @@ export default {
         }
       }
     }
+    .multiUploadBtn {
+      margin-top: 40px;
+    }
   }
   .bottom {
     height: 240px;
-.linksArea{
-    width: 50%;
-    margin: 0 auto;
-    .links_area {
+    .linksArea {
       width: 50%;
-      float: left;
-       li {
-        color: rgb(192, 193, 194);
-        width: 20%;
-        margin: 10px auto;
-        font-size: 14px;
-        text-decoration: underline;
-       }
+      margin: 0 auto;
+      .links_area {
+        width: 50%;
+        float: left;
+        li {
+          color: rgb(192, 193, 194);
+          width: 20%;
+          margin: 10px auto;
+          font-size: 14px;
+          text-decoration: underline;
+        }
+      }
     }
-}
   }
 }
 </style>
